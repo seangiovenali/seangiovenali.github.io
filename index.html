@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sean Giovenali | Portfolio</title>
+    <style>
+        :root {
+            --midnight: #00071c;
+            --azure: #006ec2;
+            --aqua: #52d2e4;
+            --white: #ffffff;
+            --gray-light: #a1a1aa;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--midnight);
+            color: var(--white);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 6vw;
+        }
+
+        /* ---------------- NAVBAR & LOGO ---------------- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 6vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 7, 28, 0.7);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--azure), var(--aqua));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(82, 210, 228, 0.3);
+        }
+
+        .logo-text {
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: var(--white);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.4s ease;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active-link {
+            color: var(--white);
+        }
+
+        .contact-btn {
+            color: var(--aqua);
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .contact-btn:hover { opacity: 0.7; }
+
+        /* ---------------- TRANSIZIONI SPA ---------------- */
+        .page {
+            display: none;
+            padding-top: 15vh;
+            min-height: 100vh;
+            padding-bottom: 12vh;
+        }
+
+        .page.active {
+            display: block;
+            animation: appleFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .page.fade-out {
+            display: block;
+            animation: appleFadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes appleFadeIn {
+            from { opacity: 0; transform: translateY(15px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes appleFadeOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-15px) scale(0.99); }
+        }
+
+        /* ---------------- HOME PAGE ---------------- */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4vw;
+            align-items: center;
+            min-height: 75vh;
+        }
+
+        .hero-text h1 {
+            font-family: ui-serif, "Playfair Display", "Didot", "Georgia", serif;
+            font-size: clamp(3.5rem, 9vw, 9rem);
+            font-weight: 500;
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 8px 30px rgba(82, 210, 228, 0.25);
+        }
+
+        .hero-text h2 {
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            color: var(--aqua);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-text p {
+            max-width: 45ch;
+            font-size: 1.1rem;
+            color: var(--gray-light);
+            line-height: 1.6;
+        }
+
+        .hero-image {
+            width: 100%;
+            aspect-ratio: 4/5;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #0a0f24;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 15%;
+        }
+
+        /* ---------------- PAGE HEADERS & GRIDS ---------------- */
+        .page-header { margin-bottom: 4rem; max-width: 800px; }
+        
+        .page-header h1 {
+            font-family: ui-serif, "Playfair Display", "Didot", "Georgia", serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+        
+        .page-header p { font-size: 1.15rem; color: var(--gray-light); }
+
+        .structured-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 5vw;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 4vw;
+            margin-bottom: 3rem;
+        }
+
+        .structured-grid.single-col {
+            grid-template-columns: 1fr;
+            max-width: 100%;
+        }
+
+        .text-block h3 { font-size: 1.8rem; margin-bottom: 0.3rem; color: var(--white); font-weight: 500; }
+        .text-block h4 { font-size: 1rem; color: var(--aqua); margin-bottom: 1.5rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+        .text-block p { color: var(--gray-light); font-size: 1.02rem; margin-bottom: 1.2rem; line-height: 1.6; }
+
+        ul.minimal-list { list-style: none; color: var(--gray-light); margin-top: 1rem; }
+        ul.minimal-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; font-size: 0.98rem; }
+        ul.minimal-list li::before { content: '—'; position: absolute; left: 0; color: var(--aqua); }
+
+        .img-card {
+            width: 100%;
+            aspect-ratio: 16/10;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #060b1e;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .img-card img.boxing-focus {
+            object-position: center 25%;
+        }
+
+        /* ---------------- MODAL CONTATTI ---------------- */
+        .contact-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 7, 28, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .contact-modal.open { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            background: #060b1e;
+            padding: 4rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+        }
+
+        .contact-modal.open .modal-content { transform: translateY(0) scale(1); }
+
+        .close-btn {
+            position: absolute; top: 20px; right: 25px;
+            font-size: 1.5rem; color: var(--gray-light);
+            cursor: pointer; transition: color 0.3s;
+        }
+        .close-btn:hover { color: var(--white); }
+
+        .modal-content h3 { font-family: ui-serif, "Didot", serif; font-size: 2rem; margin-bottom: 2rem; color: var(--white); }
+        .contact-item { margin-bottom: 1.5rem; }
+        .contact-item p.label { font-size: 0.8rem; color: var(--aqua); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.3rem;}
+        .contact-item a { color: var(--white); text-decoration: none; font-size: 1.1rem; transition: opacity 0.3s; }
+        
+        .linkedin-btn {
+            display: inline-block; margin-top: 1rem; padding: 12px 30px;
+            background: var(--white); color: var(--midnight); border-radius: 50px;
+            text-decoration: none; font-weight: 600; transition: transform 0.3s;
+        }
+
+        /* ================= RESPONSIVE PER SMARTPHONE ================= */
+        @media (max-width: 968px) {
+            /* Navbar e Menu Inferiore in stile iOS */
+            .nav-links {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                transform: none;
+                background: rgba(0, 7, 28, 0.85);
+                backdrop-filter: saturate(180%) blur(20px);
+                -webkit-backdrop-filter: saturate(180%) blur(20px);
+                border-top: 1px solid var(--border-color);
+                border-bottom: none;
+                padding: 1rem 0 2rem 0; /* Più spazio sotto per gli iPhone */
+                justify-content: space-evenly;
+                gap: 0;
+                z-index: 1000;
+            }
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+            
+            /* Titolo e Testi Homepage */
+            .hero-text h1 { font-size: clamp(3rem, 13vw, 4.5rem); }
+            .home-grid { grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem; }
+            .hero-text p { font-size: 1rem; }
+            
+            /* Griglie Interne (Experience, Education) */
+            .structured-grid { grid-template-columns: 1fr; gap: 2rem; padding: 6vw; }
+            
+            /* Modal Contatti */
+            .modal-content { padding: 3rem 1.5rem; width: 95%; }
+            
+            /* Spazio in basso per non coprire il testo con il menu */
+            .page { padding-bottom: 15vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="position: fixed; top: -20%; left: -10%; width: 70vw; height: 70vw; background: radial-gradient(circle, rgba(82, 210, 228, 0.08) 0%, rgba(0, 7, 28, 0) 70%); z-index: -1; pointer-events: none;"></div>
+
+    <nav>
+        <a onclick="navigate('home')" class="logo-container">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 6C16 6 14.5 4 12 4C9.5 4 8 5.5 8 8C8 10.5 16 12 16 15C16 18 14 20 11.5 20C9 20 7 18 7 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="logo-text">SEAN GIOVENALI</div>
+        </a>
+        
+        <!-- Il menu che da telefono va in basso -->
+        <div class="nav-links">
+            <a onclick="navigate('experience')" id="link-experience">Experience</a>
+            <a onclick="navigate('education')" id="link-education">Education</a>
+            <a onclick="navigate('drive')" id="link-drive">Personal Drive</a>
+        </div>
+        
+        <div class="contact-btn" onclick="toggleModal(true)">Contact</div>
+    </nav>
+
+    <!-- Modal Contatti -->
+    <div class="contact-modal" id="contactModal">
+        <div class="modal-content">
+            <div class="close-btn" onclick="toggleModal(false)">&times;</div>
+            <h3>Let's Connect</h3>
+            <div class="contact-item">
+                <p class="label">Email</p>
+                <a href="mailto:seangiovenali27@gmail.com">seangiovenali27@gmail.com</a>
+            </div>
+            <div class="contact-item">
+                <p class="label">Phone</p>
+                <a href="tel:+393519402010">+39 3519402010</a>
+            </div>
+            <a href="https://linkedin.com/in/sean-giovenali-36788435b" target="_blank" class="linkedin-btn">View LinkedIn</a>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- HOME PAGE -->
+        <main id="home" class="page active">
+            <div class="home-grid">
+                <div class="hero-text">
+                    <h1>SEAN<br>GIOVENALI</h1>
+                    <h2>Master's Student.</h2>
+                    <p>Highly analytical and bilingual (EN/IT). I combine a First Class Honours background in Managerial Economics with hands-on e-commerce operations to build strategies that connect and convert.</p>
+                </div>
+                <div class="hero-image">
+                    <img src="laurea.jpg" alt="Sean Giovenali Profile">
+                </div>
+            </div>
+        </main>
+
+        <!-- EXPERIENCE PAGE -->
+        <main id="experience" class="page">
+            <div class="page-header">
+                <h1>Professional Experience</h1>
+                <p>Bridging the gap between digital strategy, consumer behavior, and cross-cultural communication.</p>
+            </div>
+
+            <div class="structured-grid">
+                <div class="text-block">
+                    <h3>Enolandia</h3>
+                    <h4>E-commerce & Sales Assistant | Apr 2025 – Jul 2025</h4>
+                    <p>Worked alongside the Marketing and E-commerce Managers for the successful digital launch of "Georges Mead and Cider", brewing kits suitable for beginners and experts.</p>
+                    <ul class="minimal-list">
+                        <li>Managed product placement and digital assets across website and Amazon.</li>
+                        <li>Tracked newsletter engagement and monitored conversion rates.</li>
+                        <li>Primary B2B/B2C contact, analyzing direct feedback to extract shopper insights.</li>
+                    </ul>
+                </div>
+                <div class="img-card">
+                    <img src="Gemini_Generated_Image_vfq8jdvfq8jdvfq8.jpeg" alt="Enolandia Thesis Cover">
+                </div>
+            </div>
+
+            <div class="structured-grid single-col">
+                <div class="text-block">
+                    <h3>Scuola Paritaria Sant'Agostino & Club House</h3>
+                    <h4>Project Leader & Operations Assistant | 2025 – 2026</h4>
+                    <p><strong>Sant'Agostino:</strong> Offered tailored private English lessons, achieving a 100% pass rate and ensuring all students successfully obtained their Trinity English certifications. Designed structured physical activity lessons and fostered full-immersion cross-cultural communication.</p>
+                    <p style="margin-top: 1rem;"><strong>Club House Fidenza:</strong> Managed front-of-house operations for a high-traffic environment, optimizing reservations, customer flow, and actively analyzing consumer needs in real time.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- EDUCATION PAGE -->
+        <main id="education" class="page">
+            <div class="page-header">
+                <h1>Academic Background</h1>
+                <p>A rigorous foundation in international business, quantitative analysis, and data science.</p>
+            </div>
+
+            <div class="structured-grid">
+                <div class="text-block">
+                    <h3>Maynooth University & Università Cattolica</h3>
+                    <h4>MSc & BSc Foundation</h4>
+                    <p><strong>Current MSc:</strong> International Business at Maynooth University (Sep 2026 – Present), expanding global strategic perspectives.</p>
+                    <p><strong>BSc Graduate:</strong> Business and Managerial Economics at Università Cattolica, graduating with a <strong>First Class Honours Equivalent</strong> (106/110).</p>
+                    <ul class="minimal-list">
+                        <li>Data Science passion nurtured under Prof. Eugenio Tacchini.</li>
+                        <li>Practiced data modeling using SQL and Python basics.</li>
+                        <li>PMI® Essentials Certified in AI Project Patterns.</li>
+                    </ul>
+                </div>
+                <div class="img-card">
+                    <img src="laurea.jpg" alt="Graduation Day">
+                </div>
+            </div>
+        </main>
+
+        <!-- PERSONAL DRIVE PAGE -->
+        <main id="drive" class="page">
+            <div class="page-header">
+                <h1>Personal Drive</h1>
+                <p>What happens outside the classroom shapes the mindset inside the boardroom.</p>
+            </div>
+
+            <div class="structured-grid">
+                <div class="text-block">
+                    <h3>Combat Sports & Discipline</h3>
+                    <h4>Boxing & Muay Thai</h4>
+                    <p>The ring is the ultimate test of preparation. Through rigorous competitive fight preparation in Boxing and Muay Thai, I have developed extreme resilience and mental toughness.</p>
+                    <p>True excellence requires sacrifice, consistency, and 100% dedication. I apply this exact same mindset to my academic milestones and professional challenges.</p>
+                </div>
+                <div class="img-card">
+                    <img src="de30f657-7e82-4010-b2e5-8fb8b3b84c39_Original_Original.jpg" alt="Boxing Training" class="boxing-focus">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let isAnimating = false;
+
+        function navigate(pageId) {
+            if (isAnimating) return;
+            
+            const current = document.querySelector('.page.active');
+            const target = document.getElementById(pageId);
+            
+            if (current === target) return;
+            
+            isAnimating = true;
+
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active-link'));
+            if(document.getElementById('link-' + pageId)) {
+                document.getElementById('link-' + pageId).classList.add('active-link');
+            }
+
+            if (current) {
+                current.classList.remove('active');
+                current.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    current.classList.remove('fade-out');
+                    target.classList.add('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setTimeout(() => { isAnimating = false; }, 800);
+                }, 350);
+            } else {
+                target.classList.add('active');
+                isAnimating = false;
+            }
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('contactModal');
+            if(show) {
+                modal.classList.add('open');
+            } else {
+                modal.classList.remove('open');
+            }
+        }
+
+        document.getElementById('contactModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleModal(false);
+            }
+        });
+    </script>
+</body>
+</html>
